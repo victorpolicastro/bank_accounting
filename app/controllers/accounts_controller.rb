@@ -2,11 +2,6 @@ class AccountsController < ApplicationController
   before_action :authorize_request, except: :create
   before_action :find_account, except: %i[create]
 
-  # GET /accounts/:id
-  def show
-    render json: @account, status: :ok
-  end
-
   # POST /accounts
   def create
     @account = Account.new(account_params)
@@ -16,11 +11,6 @@ class AccountsController < ApplicationController
       render json: { errors: @account.errors.full_messages },
              status: :unprocessable_entity
     end
-  end
-
-  # DELETE /accounts/:id
-  def destroy
-    @account.destroy unless @account.balance.positive?
   end
 
   private

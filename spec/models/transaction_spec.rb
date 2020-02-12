@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
-  let!(:source_account) { create :account }
+  let!(:account) { create :account }
   let!(:destination_account) { create :account }
 
   context 'validation specs' do
     it 'ensures account presence' do
       base_transaction = Transaction.new(
-        source_account_id: nil,
+        account_id: nil,
         destination_account_id: destination_account.id,
         amount: Faker::Number.decimal(l_digits: 2)
       ).save
@@ -17,7 +17,7 @@ RSpec.describe Transaction, type: :model do
 
     it 'ensures account presence' do
       base_transaction = Transaction.new(
-        source_account_id: source_account.id,
+        account_id: account.id,
         destination_account_id: nil,
         amount: Faker::Number.decimal(l_digits: 2)
       ).save
@@ -27,7 +27,7 @@ RSpec.describe Transaction, type: :model do
 
     it 'ensures account presence' do
       base_transaction = Transaction.new(
-        source_account_id: source_account.id,
+        account_id: account.id,
         destination_account_id: destination_account.id,
         amount: nil
       ).save
@@ -39,7 +39,7 @@ RSpec.describe Transaction, type: :model do
   context 'when valid' do
     it 'successfully saves transaction' do
       base_transaction = Transaction.new(
-        source_account_id: source_account.id,
+        account_id: account.id,
         destination_account_id: destination_account.id,
         amount: Faker::Number.decimal(l_digits: 2)
       ).save
