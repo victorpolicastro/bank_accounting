@@ -46,4 +46,12 @@ RSpec.describe Account, type: :model do
       expect(base_transaction).to(be(true))
     end
   end
+
+  context 'when account has balance' do
+    let!(:account) { create :account, :with_balance }
+
+    it "successfully returns account's balance" do
+      expect(account.current_balance.positive?).to(be(true))
+    end
+  end
 end
