@@ -6,7 +6,7 @@ RSpec.describe Account, type: :model do
       base_transaction = Account.new(
         name: nil,
         email: Faker::Internet.email,
-        password: Faker::Number.number(digits: 6).to_s
+        password: Faker::Alphanumeric.alphanumeric(number: 10)
       ).save
 
       expect(base_transaction).to(be(false))
@@ -16,7 +16,7 @@ RSpec.describe Account, type: :model do
       base_transaction = Account.new(
         name: Faker::Name.name,
         email: nil,
-        password: Faker::Number.number(digits: 6).to_s
+        password: Faker::Alphanumeric.alphanumeric(number: 10)
       ).save
 
       expect(base_transaction).to(be(false))
@@ -38,7 +38,7 @@ RSpec.describe Account, type: :model do
       base_transaction = Account.new(
         name: Faker::Name.name,
         email: Faker::Internet.email,
-        password: Faker::Number.number(digits: 6).to_s
+        password: Faker::Alphanumeric.alphanumeric(number: 10)
       ).save
 
       expect(base_transaction).to(be(true))

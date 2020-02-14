@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :account do
     name { Faker::Name.name }
     email { Faker::Internet.email }
-    password { Faker::Number.number(digits: 6).to_s }
+    password { Faker::Alphanumeric.alphanumeric(number: 10) }
 
     trait :with_balance do
       after(:create) do |account|

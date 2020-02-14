@@ -4,6 +4,12 @@ class AccountsController < ApplicationController
 
   # GET /accounts
   def show
+    render(
+      json: {
+        errors: "You don't have access to do that."
+      }
+    ) and return unless @current_account.id == params[:id]
+
     data = AccountPresenter.new(@current_account).call
 
     render json: { data: data }
@@ -12,6 +18,7 @@ class AccountsController < ApplicationController
   # POST /accounts
   def create
     @account = Account.new(account_params)
+
     if @account.save
       render json: @account, status: :created
     else
@@ -20,8 +27,14 @@ class AccountsController < ApplicationController
     end
   end
 
-  # POST /accounts/
+  # POST /accounts/:id/transactions
   def transactions
+    render(
+      json: {
+        errors: "You don't have access to do that."
+      }
+    ) and return unless @current_account.id == params[:id]
+
     destination_account_id = params[:destination_account_id]
     amount = params[:amount]
 
