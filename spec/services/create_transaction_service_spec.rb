@@ -31,27 +31,30 @@ RSpec.describe CreateTransactionService do
       response = described_class.new(account, destination_account, -20).call
 
       expect(response.success?).to(be(false))
-      expect(response.messages).to(include("Amount has to be positive."))
+      expect(response.messages).to(include('Amount has to be positive.'))
     end
 
     it 'ensures account have funds' do
       response = described_class.new(account, destination_account, amount).call
 
       expect(response.success?).to(be(false))
-      expect(response.messages).to(include("Insufficient funds."))
+      expect(response.messages).to(include('Insufficient funds.'))
     end
   end
 
   context 'when valid' do
     let!(:account) { create :account, :with_balance }
+    let(:current_balance) { account.current_balance }
     let!(:destination_account) { create :account }
-    let(:amount) { Faker::Number.number(digits: 8) }
+    let(:amount) { Faker::Number.number(digits: 2) }
 
     it 'successfully creates transaction' do
       response = described_class.new(account, destination_account, amount).call
 
       expect(response.success?).to(be(true))
       expect(response.messages).to(include('Transaction successfully created.'))
+      expect(destination_account.current_balance).to(eq(amount))
+      expect(account.current_balance).to(eq(current_balance - amount))
     end
   end
 end

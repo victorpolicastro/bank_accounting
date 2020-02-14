@@ -6,7 +6,12 @@ FactoryBot.define do
 
     trait :with_balance do
       after(:create) do |account|
-        create(:transaction, account_id: account.id, destination_account_id: account.id, amount: Faker::Number.number(digits: 10))
+        create(
+          :transaction,
+          account_id: account.id,
+          destination_account_id: account.id,
+          amount: Faker::Number.number(digits: 3)
+        )
       end
     end
   end

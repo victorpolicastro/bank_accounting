@@ -9,8 +9,8 @@ class Account < ApplicationRecord
   has_many :transactions
 
   def current_balance
-    down = self.transactions.where.not(destination_account_id: self.id).sum(:amount).to_f
-    up = Transaction.where(destination_account_id: self.id).sum(:amount).to_f
+    down = transactions.where.not(destination_account_id: id).sum(:amount).to_f
+    up = Transaction.where(destination_account_id: id).sum(:amount).to_f
 
     up - down
   end

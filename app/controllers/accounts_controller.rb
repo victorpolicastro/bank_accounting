@@ -2,9 +2,9 @@ class AccountsController < ApplicationController
   before_action :authorize_request, except: :create
   before_action :find_account, except: %i[create]
 
-  # GET /accounts/:id
+  # GET /accounts
   def show
-    data = AccountPresenter.new(@account).call
+    data = AccountPresenter.new(@current_account).call
 
     render json: { data: data }
   end
@@ -21,13 +21,13 @@ class AccountsController < ApplicationController
   end
 
   # POST /accounts/
-  def transaction
+  def transactions
     destination_account_id = params[:destination_account_id]
-    amount = amount
+    amount = params[:amount]
 
     response =
       CreateTransactionService.new(
-        @account,
+        @current_account,
         destination_account_id,
         amount
       ).call

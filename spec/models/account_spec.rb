@@ -13,12 +13,10 @@ RSpec.describe Account, type: :model do
     end
 
     it 'ensures email presence' do
-      password = Faker::Number.number(digits: 6).to_s
-
       base_transaction = Account.new(
         name: Faker::Name.name,
         email: nil,
-        password: Faker::Number.number(digits: 6).to_s,
+        password: Faker::Number.number(digits: 6).to_s
       ).save
 
       expect(base_transaction).to(be(false))
