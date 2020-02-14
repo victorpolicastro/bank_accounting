@@ -10,6 +10,12 @@ class ApplicationController < ActionController::API
     begin
       @decoded = JsonWebToken.decode(header)
       @current_account = Account.find(@decoded[:account_id])
+
+      render(
+        json: {
+          errors: "You don't have access to do that."
+        }
+      ) and return unless @current_account.id == params[:id]
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
     rescue JWT::DecodeError => e
